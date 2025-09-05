@@ -64,33 +64,57 @@ const CardUI = (() => {
             }
         });
 
-        // --- UNIFIED DRAGGING LOGIC (Attached to the handle) ---
+// --- UNIFIED DRAGGING LOGIC (TOUCH & MOUSE COMPATIBLE) ---
         let offsetX, offsetY, dragging = false;
 
-        dragHandle.addEventListener("mousedown", e => {
+        function dragStart(e) {
             dragging = true;
+            // Prevent default touch action (like scrolling the page)
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+            }
+
+            // Get coordinates for either mouse or touch
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            
             const cardRect = div.getBoundingClientRect();
-            offsetX = e.clientX - cardRect.left;
-            offsetY = e.clientY - cardRect.top;
+            offsetX = clientX - cardRect.left;
+            offsetY = clientY - cardRect.top;
+            
             div.style.cursor = "grabbing";
             e.stopPropagation();
-        });
+        }
 
-        document.addEventListener("mousemove", e => {
+        function dragMove(e) {
             if (dragging) {
-                card.x = e.clientX - offsetX;
-                card.y = e.clientY - offsetY;
+                // Get coordinates for either mouse or touch
+                const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+                card.x = clientX - offsetX;
+                card.y = clientY - offsetY;
                 div.style.left = card.x + "px";
                 div.style.top = card.y + "px";
             }
-        });
+        }
 
-        document.addEventListener("mouseup", () => {
+        function dragEnd() {
             if (dragging) {
                 dragging = false;
-                div.style.cursor = "grab"; // Reset cursor on the main card div
+                div.style.cursor = "grab";
             }
-        });
+        }
+
+        // Attach both mouse and touch listeners
+        dragHandle.addEventListener("mousedown", dragStart);
+        dragHandle.addEventListener("touchstart", dragStart, { passive: false });
+
+        document.addEventListener("mousemove", dragMove);
+        document.addEventListener("touchmove", dragMove);
+
+        document.addEventListener("mouseup", dragEnd);
+        document.addEventListener("touchend", dragEnd);
 
         // --- COLOR PALETTE LOGIC ---
         const colors = ['#ffffff', '#fff0f0', '#f0faff', '#f5f5dc', '#f0fff0'];
