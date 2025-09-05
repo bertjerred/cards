@@ -5,13 +5,13 @@ const CardModel = (() => {
     function addCard(title = "New Title", blurb = "Click to edit...") {
         const card = {
             id: idCounter++,
-            title, // Replaces 'text'
-            blurb, // New field for the body content
+            title,
+            blurb,
             x: 50,
             y: 50,
             tags: [],
             nucleus: false,
-            color: '#ffffff' // New field for card color, defaults to white
+            color: '#ffffff'
         };
         cards.push(card);
         return card;
@@ -26,5 +26,21 @@ const CardModel = (() => {
         return cards;
     }
 
-    return { addCard, updateCard, getCards };
+        function loadCards(loadedData) {
+        if (Array.isArray(loadedData)) {
+            cards = loadedData;
+            idCounter = Math.max(0, ...cards.map(c => c.id)) + 1;
+        } else {
+            console.error("Failed to load session: Data is not valid.");
+        }
+    }
+
+        function deleteCard(id) {
+        const cardIndex = cards.findIndex(c => c.id === id);
+        if (cardIndex > -1) {
+            cards.splice(cardIndex, 1);
+        }
+    }
+
+    return { addCard, updateCard, getCards, loadCards, deleteCard };;
 })();
