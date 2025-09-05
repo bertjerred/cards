@@ -49,13 +49,6 @@ No installation or build process is required. Simply open the `index.html` file 
 
 * * *
 
-Almost Touchscreen-ready
-----------
-
-Some but not all features yet optimized for touchscreen. This is a priority, but for now, mostly developed and tested on traditional desktop PC.
-
-* * *
-
 File Structure
 --------------
 
