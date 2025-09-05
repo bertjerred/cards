@@ -24,7 +24,7 @@ body {
 /* --- Card Component --- */
 .card {
     position: absolute;
-    width: 150px;
+    width: 170px; /* Increased from 150px */
     padding: 10px;
     background: #fff;
     border: 2px solid #ccc; 
@@ -33,17 +33,18 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.card.nucleus {
-    border-color: #f39c12;
-    border-width: 3px;
-}
-
 .card .card-title {
     font-weight: bold;
     margin-bottom: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid #eee;
     cursor: pointer;
+    padding-left: 20px; /* Added to make room for the delete button */
+}
+
+.card.nucleus {
+    border-color: #f39c12;
+    border-width: 3px;
 }
 
 .card .card-blurb {
@@ -62,6 +63,34 @@ body {
     border-radius: 4px;
     padding: 1px 4px;
     font-size: 0.8em;
+}
+
+.card .drag-handle {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: grab;
+    font-size: 20px;
+    color: #cccccc;
+}
+
+.card .drag-handle:hover {
+    color: #888888;
+}
+
+.card .delete-btn {
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    color: #cccccc;
+    line-height: 1;
+}
+
+.card .delete-btn:hover {
+    color: #e74c3c; /* Red on hover */
 }
 
 /* --- Tag Component --- */
@@ -187,4 +216,29 @@ body {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
+}
+
+/* --- UI Enhancements --- */
+#add-card {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+    }
+}
+
+.file-input-label {
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonborder;
+    border-image: initial;
 }
