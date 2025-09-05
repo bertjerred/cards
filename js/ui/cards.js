@@ -7,7 +7,7 @@ const CardUI = (() => {
         if (card.nucleus) div.classList.add("nucleus");
         div.style.left = card.x + "px";
         div.style.top = card.y + "px";
-        div.style.backgroundColor = card.color; // Set initial card color
+        div.style.backgroundColor = card.color;
 
         // --- TITLE AND BLURB STRUCTURE ---
         const titleDiv = document.createElement("div");
@@ -25,7 +25,7 @@ const CardUI = (() => {
             const newTitle = prompt("Edit Title:", card.title);
             if (newTitle !== null && newTitle.trim() !== "") {
                 card.title = newTitle;
-                titleDiv.textContent = newTitle; // Update view immediately
+                titleDiv.textContent = newTitle;
             }
         });
 
@@ -33,16 +33,62 @@ const CardUI = (() => {
             const newBlurb = prompt("Edit Blurb:", card.blurb);
             if (newBlurb !== null) {
                 card.blurb = newBlurb;
-                blurbDiv.textContent = newBlurb; // Update view immediately
+                blurbDiv.textContent = newBlurb;
             }
         });
 
         // --- NUCLEUS TOGGLE ---
         div.addEventListener("dblclick", (e) => {
-            // Prevent dblclick from firing when interacting with child elements
             if (e.target === div) {
                 card.nucleus = !card.nucleus;
                 div.classList.toggle("nucleus");
+            }
+        });
+
+        // --- DRAG HANDLE ---
+        const dragHandle = document.createElement("div");
+        dragHandle.classList.add("drag-handle");
+        dragHandle.innerHTML = "⠿";
+        div.appendChild(dragHandle);
+
+        // --- DELETE BUTTON ---
+        const deleteBtn = document.createElement("div");
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.innerHTML = "&times;";
+        div.appendChild(deleteBtn);
+
+        deleteBtn.addEventListener("click", () => {
+            if (confirm("Are you sure you want to permanently delete this card?")) {
+                CardModel.deleteCard(card.id);
+                CardUI.render();
+            }
+        });
+
+        // --- UNIFIED DRAGGING LOGIC (Attached to the handle) ---
+        let offsetX, offsetY, dragging = false;
+
+        dragHandle.addEventListener("mousedown", e => {
+            dragging = true;
+            const cardRect = div.getBoundingClientRect();
+            offsetX = e.clientX - cardRect.left;
+            offsetY = e.clientY - cardRect.top;
+            div.style.cursor = "grabbing";
+            e.stopPropagation();
+        });
+
+        document.addEventListener("mousemove", e => {
+            if (dragging) {
+                card.x = e.clientX - offsetX;
+                card.y = e.clientY - offsetY;
+                div.style.left = card.x + "px";
+                div.style.top = card.y + "px";
+            }
+        });
+
+        document.addEventListener("mouseup", () => {
+            if (dragging) {
+                dragging = false;
+                div.style.cursor = "grab"; // Reset cursor on the main card div
             }
         });
 
@@ -60,46 +106,15 @@ const CardUI = (() => {
             }
 
             swatch.addEventListener('click', () => {
-                card.color = color; // Update model
-                div.style.backgroundColor = color; // Update view
+                card.color = color;
+                div.style.backgroundColor = color;
 
-                // Update 'selected' class on swatches
                 palette.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
                 swatch.classList.add('selected');
             });
             palette.appendChild(swatch);
         });
         div.appendChild(palette);
-
-
-        // --- DRAGGING LOGIC ---
-        let offsetX, offsetY, dragging = false;
-
-        div.addEventListener("mousedown", e => {
-            // Only allow dragging from the main card div, not its interactive children
-            if (e.target === div) {
-                dragging = true;
-                offsetX = e.clientX - div.offsetLeft;
-                offsetY = e.clientY - div.offsetTop;
-                div.style.cursor = "grabbing";
-            }
-        });
-
-        document.addEventListener("mousemove", e => {
-            if (dragging) {
-                card.x = e.clientX - offsetX;
-                card.y = e.clientY - offsetY;
-                div.style.left = card.x + "px";
-                div.style.top = card.y + "px";
-            }
-        });
-
-        document.addEventListener("mouseup", () => {
-            if (dragging) {
-                dragging = false;
-                div.style.cursor = "grab";
-            }
-        });
 
         // --- TAGS LOGIC ---
         const tagContainer = document.createElement("div");
@@ -120,7 +135,6 @@ const CardUI = (() => {
                 tagContainer.appendChild(t);
             });
 
-            // --- NEW TOUCH-FRIENDLY TAG BUTTON ---
             const addTagButton = document.createElement("span");
             addTagButton.classList.add("tag", "add-tag-btn");
             addTagButton.textContent = "+ tag";
@@ -131,7 +145,7 @@ const CardUI = (() => {
                     const trimmedTag = newTag.trim();
                     if (!card.tags.includes(trimmedTag)) {
                         card.tags.push(trimmedTag);
-                        updateTagDisplay(); // Re-render this card's tags
+                        updateTagDisplay();
                     } else {
                         alert("This tag already exists.");
                     }
