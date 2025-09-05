@@ -4,6 +4,8 @@ Cards: A Simple Web-Based Brainstorming Tool
 This project is a lightweight, single-page web application for creating and organizing ideas on a digital canvas. It functions like a virtual corkboard, allowing users to create draggable "cards" for brainstorming, note-taking, or organizing thoughts.
 
 * * *
+**Try it live** [here](https://bertjerred.github.io/cards/)
+* * *
 
 Features
 --------
