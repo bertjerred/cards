@@ -1,0 +1,190 @@
+/* --- Global Styles --- */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Main Layout --- */
+#toolbar {
+    padding: 10px;
+    background: #f0f0f0;
+    display: flex;
+    gap: 10px;
+}
+
+#card-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 50px);
+    background: #fffbe6;
+    overflow: hidden;
+}
+
+/* --- Card Component --- */
+.card {
+    position: absolute;
+    width: 150px;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #ccc; 
+    border-radius: 8px;
+    cursor: grab;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card.nucleus {
+    border-color: #f39c12;
+    border-width: 3px;
+}
+
+.card .card-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.card .card-blurb {
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    min-height: 20px;
+    cursor: pointer;
+}
+
+.card .tags {
+    margin-top: 5px;
+}
+
+.card input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1px 4px;
+    font-size: 0.8em;
+}
+
+/* --- Tag Component --- */
+.tag {
+    display: inline-block;
+    background: #ddd;
+    padding: 2px 6px;
+    margin: 2px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.tag.add-tag-btn {
+    background: #e0e0e0;
+    border: 1px dashed #aaa;
+}
+
+.tag:hover {
+    background: #ccc;
+}
+
+/* --- Color Palette --- */
+.color-palette {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.color-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: transform 0.2s;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.selected {
+    border: 2px solid #3498db;
+}
+
+/* --- Modal Component --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-content label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#format-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.filter-container {
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.filter-container .tag-option {
+    display: block;
+}
+
+.filter-container .color-option {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.filter-container .color-option.selected {
+    border-color: #3498db;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    text-align: right;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
