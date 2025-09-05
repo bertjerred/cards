@@ -11,6 +11,9 @@
     <div id="toolbar">
         <button id="add-card">Add Card</button>
         <button id="export-json">Export Report</button>
+        <button id="save-screenshot">Save Screenshot</button>
+        <button id="save-session">Save Session</button>
+        <button id="load-session-btn" class="file-input-label">Load Session</button> <input type="file" id="load-session-input" style="display: none;">
     </div>
 
     <div id="card-container"></div>
@@ -24,8 +27,8 @@
             
             <label>Export Format</label>
             <div id="format-options">
-                <label><input type="radio" name="format" value="md" checked> Markdown (.md)</label>
-                <label><input type="radio" name="format" value="html"> HTML (.html)</label>
+                <label><input type="radio" name="format" value="md"> Markdown (.md)</label>
+                <label><input type="radio" name="format" value="html" checked> HTML (.html)</label>
                 <label><input type="radio" name="format" value="json"> JSON (.json)</label>
             </div>
             
@@ -48,6 +51,7 @@
         </div>
     </div>
 
+    <script src="js/lib/html2canvas.min.js"></script>
     <script src="js/model.js"></script>
     <script src="js/ui/cards.js"></script>
     <script src="js/ui/export.js"></script>
